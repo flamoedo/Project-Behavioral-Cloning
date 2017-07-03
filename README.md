@@ -13,6 +13,13 @@ The goals / steps of this project are the following:
 * Summarize the results with a written report
 
 
+# * Check the driving performance on the following links:
+
+https://youtu.be/LtgchH1XL90
+
+https://youtu.be/2eYJb210tpo
+
+
 [//]: # (Image References)
 
 [image1]: ./images/cnn-architecture-624x890.png "Model Visualization"
