@@ -15,9 +15,13 @@ The goals / steps of this project are the following:
 
 # * Check the driving performance on the following links:
 
-![alt text](./images/Video_track1.PNG) "Video track 1"
+![alt text](./images/Video_track1.PNG) 
 
-![alt text](./images/Video_track2.PNG) "Video track 2"
+"Video track 1"
+
+![alt text](./images/Video_track2.PNG) 
+
+"Video track 2"
 
 
 https://youtu.be/LtgchH1XL90
