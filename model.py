@@ -23,7 +23,7 @@ def generator(samples, batch_size=32):
 
                 for i in range(3):
                     
-                    name_split = batch_sample[i].split('\\')
+                    name_split = batch_sample[i].split('\\')                
                     
                     name =  name_split[-3] + '\\' + \
                     name_split[-2] + '\\' + name_split[-1]
@@ -83,13 +83,13 @@ def cnn_model(input_shape):
     model.add(Conv2D(64,(3,3),activation='relu', padding='valid', kernel_initializer='he_normal'))
     model.add(Conv2D(64,(3,3),activation='relu', padding='valid', kernel_initializer='he_normal'))
     model.add(Flatten())
-    model.add(Dense(1164, kernel_initializer='he_normal'))
+    model.add(Dense(1164, activation='relu', kernel_initializer='he_normal'))
     # Dropout layer to avoid overfiting
     model.add(Dropout(0.3))
-    model.add(Dense(100, kernel_initializer='he_normal'))
+    model.add(Dense(100, activation='relu', kernel_initializer='he_normal'))
     model.add(Dropout(0.3))
-    model.add(Dense(50, kernel_initializer='he_normal'))
-    model.add(Dense(10, kernel_initializer='he_normal'))
+    model.add(Dense(50, activation='relu', kernel_initializer='he_normal'))
+    model.add(Dense(10, activation='relu', kernel_initializer='he_normal'))
     model.add(Dense(1, kernel_initializer='he_normal'))
     
     return model            
@@ -100,7 +100,7 @@ def training_run():
     """ Load CSV file """
     
     samples = []
-    with open('data2/driving_log.csv') as csvfile:
+    with open('data/driving_log.csv') as csvfile:
         reader = csv.reader(csvfile)
         for line in reader:
             samples.append(line)
