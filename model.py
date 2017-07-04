@@ -83,12 +83,11 @@ def cnn_model(input_shape):
     model.add(Conv2D(64,(3,3),activation='relu', padding='valid', kernel_initializer='he_normal'))
     model.add(Conv2D(64,(3,3),activation='relu', padding='valid', kernel_initializer='he_normal'))
     model.add(Flatten())
-    model.add(Dense(1164, activation='relu', kernel_initializer='he_normal'))
     # Dropout layer to avoid overfiting
-    model.add(Dropout(0.3))
     model.add(Dense(100, activation='relu', kernel_initializer='he_normal'))
     model.add(Dropout(0.3))
     model.add(Dense(50, activation='relu', kernel_initializer='he_normal'))
+    model.add(Dropout(0.3))
     model.add(Dense(10, activation='relu', kernel_initializer='he_normal'))
     model.add(Dense(1, kernel_initializer='he_normal'))
     
