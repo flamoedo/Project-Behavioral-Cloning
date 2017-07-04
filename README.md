@@ -61,14 +61,12 @@ My final model consisted of the following layers:
 | Convolution     | Filter: 3x3, Depth: 64, stride: 1x1, valid padding|
 | RELU					|												|
 | Flatten				|												|
-| Fully connected		|Output: 1164									|
-| RELU					|												|
-| Dropout	         	|0.3           									|
 | Fully connected		|Output: 100									|
 | RELU					|												|
 | Dropout	         	|0.3           									|
 | Fully connected		|Output: 50									|
 | RELU					|												|
+| Dropout	         	|0.3           									|
 | Fully connected		|Output: 10									|
 | RELU					|												|
 | Fully connected		|Output: 1									|
