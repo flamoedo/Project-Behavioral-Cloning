@@ -8,6 +8,8 @@ import numpy as np
 import sklearn
 import sklearn.utils
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+
 
 def generator(samples, batch_size=32):
     num_samples = len(samples)
@@ -23,7 +25,7 @@ def generator(samples, batch_size=32):
 
                 for i in range(3):
                     
-                    name_split = batch_sample[i].split('\\')                
+                    name_split = batch_sample[i].split('\\')
                     
                     name =  name_split[-3] + '\\' + \
                     name_split[-2] + '\\' + name_split[-1]
@@ -69,6 +71,7 @@ from keras.models import Sequential
 from keras.layers import Flatten, Dense, Lambda, Conv2D, Cropping2D, Dropout
 from keras.layers import MaxPooling2D
 from keras.layers.normalization import BatchNormalization
+from keras.callbacks import EarlyStopping, ModelCheckpoint
 
 def cnn_model(input_shape):
     
@@ -84,10 +87,11 @@ def cnn_model(input_shape):
     model.add(Conv2D(64,(3,3),activation='relu', padding='valid', kernel_initializer='he_normal'))
     model.add(Flatten())
     # Dropout layer to avoid overfiting
+    model.add(Dropout(0.3))
     model.add(Dense(100, activation='relu', kernel_initializer='he_normal'))
-    model.add(Dropout(0.3))
+    #model.add(Dropout(0.3))
     model.add(Dense(50, activation='relu', kernel_initializer='he_normal'))
-    model.add(Dropout(0.3))
+    #model.add(Dropout(0.3))
     model.add(Dense(10, activation='relu', kernel_initializer='he_normal'))
     model.add(Dense(1, kernel_initializer='he_normal'))
     
@@ -99,7 +103,7 @@ def training_run():
     """ Load CSV file """
     
     samples = []
-    with open('data/driving_log.csv') as csvfile:
+    with open('data2/driving_log.csv') as csvfile:
         reader = csv.reader(csvfile)
         for line in reader:
             samples.append(line)
@@ -118,7 +122,7 @@ def training_run():
     """    
     batch_size=32
     steps_per_epoch=32
-    number_of_epochs=3
+    number_of_epochs=50
     
     # compile and train the model using the generator function
     train_generator = generator(train_samples, batch_size=batch_size)
@@ -129,12 +133,34 @@ def training_run():
     
     """Training process"""
     
-    model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch
-                , validation_data=validation_generator, 
-                validation_steps=steps_per_epoch, epochs=number_of_epochs)
+    callbacks = [    
+    EarlyStopping(monitor='val_loss', min_delta=0.001, patience=2, verbose=0, mode='auto'),
+    ModelCheckpoint('model3.h5', monitor='val_loss', save_best_only=True, verbose=0),
+    ]
     
-    model.save('model2.h5')
+    history = model.fit_generator(train_generator, steps_per_epoch=steps_per_epoch
+                , validation_data=validation_generator,
+                validation_steps=steps_per_epoch, epochs=number_of_epochs, callbacks=callbacks)
     
+    #model.save('model3.h5')
+    
+    #print(history.history.keys())
+    ## summarize history for accuracy
+    #plt.plot(history.history['acc'])
+    #plt.plot(history.history['val_acc'])
+    #plt.title('model accuracy')
+    #plt.ylabel('accuracy')
+    #plt.xlabel('epoch')
+    #plt.legend(['train', 'test'], loc='upper left')
+    #plt.show()
+    # summarize history for loss
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('model loss')
+    plt.ylabel('loss')
+    plt.xlabel('epoch')
+    plt.legend(['train', 'test'], loc='upper left')
+    plt.show()
     
 if __name__ == "__main__":
     training_run()
